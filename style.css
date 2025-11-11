@@ -1,3 +1,5 @@
+/* ========== GLOBAL RESET ========== */
+
 * {
   box-sizing: border-box;
 }
@@ -15,13 +17,17 @@ a {
   text-decoration: none;
 }
 
-/* ===== MOBILE-FIRST BASE ===== */
+
+/* ========== PAGE WRAPPER ========== */
 
 .page {
   max-width: 1200px;
   margin: 0 auto;
   padding: 24px 16px 32px;
 }
+
+
+/* ========== HEADER / LOGO / NAV ========== */
 
 header {
   text-align: center;
@@ -42,7 +48,7 @@ header {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  border-radius: 50%;
+  border-radius: 50%; /* optional: keep round */
 }
 
 .brand-name {
@@ -84,6 +90,9 @@ header {
   width: 60%;
 }
 
+
+/* ========== ANNOUNCEMENT BAR ========== */
+
 .announcement {
   margin: 0 auto 28px;
   max-width: 100%;
@@ -108,38 +117,121 @@ header {
   font-size: 11px;
 }
 
-/* Grid: 1 column on very small screens */
+
+/* ========== GRID LAYOUT ========== */
+
+/* 1 column on small screens */
 .grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 10px;
 }
 
+
+/* ========== FLIP CARD TILES (FAKE FLIP) ========== */
+
+/* container for each card */
 .tile {
-  background: #f7f7f7;
-  aspect-ratio: 1 / 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 16px;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;       /* square card */
+  cursor: pointer;
 }
 
-.tile img {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-}
-
-.tile-placeholder {
-  font-size: 12px;
-  color: #bbb;
-  border: 1px dashed #e0e0e0;
+/* inner card wrapper */
+.card-inner {
+  position: relative;
   width: 100%;
   height: 100%;
+  background: #f7f7f7;
+  border-radius: 4px;
+  overflow: hidden;
+  padding: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
+
+/* front + back faces, stacked */
+.card-front,
+.card-back {
+  position: absolute;
+  inset: 0;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+/* front image */
+.card-front {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-front img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.6s ease;
+}
+
+/* soft zoom on hover (desktop) */
+.tile:hover .card-front img {
+  transform: scale(1.08);
+}
+
+/* default states */
+.card-front {
+  opacity: 1;
+  transform: rotateY(0deg);
+}
+
+/* back face, pinned to top-left */
+.card-back {
+  opacity: 0;
+  transform: rotateY(10deg);
+  padding: 16px;
+  display: flex;
+  align-items: flex-start;   /* content starts at top */
+  justify-content: flex-start;
+}
+
+/* flipped states */
+.tile.flipped .card-front {
+  opacity: 0;
+  transform: rotateY(-10deg);
+}
+
+.tile.flipped .card-back {
+  opacity: 1;
+  transform: rotateY(0deg);
+}
+
+/* back content pinned to top, full width */
+.card-back-content {
+  text-align: left;
+  font-size: 12px;
+  line-height: 1.4;
+  color: #555;
+  width: 100%;
+}
+
+.glaze-name {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.glaze-info {
+  margin: 0 0 6px 0;
+}
+
+.glaze-maker {
+  margin: 0;
+  font-style: italic;
+  color: #888;
+}
+
+
+/* ========== FOOTER ========== */
 
 footer {
   text-align: center;
@@ -148,12 +240,17 @@ footer {
   margin-top: 32px;
 }
 
-/* Side labels: hidden on mobile by default */
+
+/* ========== SIDE LABELS (DESKTOP ONLY) ========== */
+
 .side-label {
   display: none;
 }
 
-/* ===== TABLET (≥ 600px) ===== */
+
+/* ========== RESPONSIVE BREAKPOINTS ========== */
+
+/* Tablet ≥ 600px */
 @media (min-width: 600px) {
   .page {
     padding: 28px 24px 40px;
@@ -165,7 +262,7 @@ footer {
   }
 }
 
-/* ===== SMALL DESKTOP (≥ 900px) ===== */
+/* Small desktop ≥ 900px */
 @media (min-width: 900px) {
   .page {
     padding: 32px 24px 48px;
@@ -193,7 +290,7 @@ footer {
   }
 }
 
-/* ===== LARGE DESKTOP (≥ 1200px) ===== */
+/* Large desktop ≥ 1200px */
 @media (min-width: 1200px) {
   .grid {
     grid-template-columns: repeat(4, 1fr);
